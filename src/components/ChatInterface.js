@@ -364,6 +364,9 @@ import { Send, Mic, PlusCircle, Moon, Sun, X, Mail, MoreVertical} from 'lucide-r
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
 
+
+const API_URL= process.env.REACT_APP_API_URL
+
 // Simple URL detection and linking function
 const linkifyText = (text) => {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -386,10 +389,10 @@ const linkifyText = (text) => {
 };
 
 const topicApiEndpoints = {
-  'General Inquiry': "http://127.0.0.1:8000/chat/general",
-  'Academics': "http://127.0.0.1:8000/chat/academics",
-  'Campus Navigation': "http://127.0.0.1:8000/chat/campus-nav",
-  'Admissions': "http://127.0.0.1:8000/chat/admissions"
+  'General Inquiry': `${API_URL}/chat/general`,
+  'Academics': `${API_URL}/chat/academics`,
+  'Campus Navigation': `${API_URL}/chat/campus-nav`,
+  'Admissions': `${API_URL}/chat/admissions`
 };
 
 const ChatInterface = () => {
