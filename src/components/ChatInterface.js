@@ -367,6 +367,8 @@ import axios from 'axios';
 
 const API_URL= process.env.REACT_APP_API_URL
 
+
+
 // Simple URL detection and linking function
 const linkifyText = (text) => {
   const urlRegex = /(https?:\/\/[^\s]+)/g;
