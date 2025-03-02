@@ -604,7 +604,7 @@ const ChatInterface = () => {
     }
     const trimmedEmail = email.split('@')[0];
     console.log(trimmedEmail); 
-    const resp=axios.post('http://127.0.0.1:8000/chat/mail', {
+    const resp=axios.post(`http://${API_URL}/chat/mail`, {
       message: selectedMessage,  // Dictionary data
       email: email,     // Separate email
     })
