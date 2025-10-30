@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import ChatInterface from './components/ChatInterface';
+import ChatInterfacePremium from './components/ChatInterfacePremium';
 import AdminLayout from './components/AdminPanel';
 
 function App() {
@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <Routes>
-          <Route path="/" element={<ChatInterface />} />
+          <Route path="/" element={<ChatInterfacePremium />} />
           <Route path="/admin_pan" element={<AdminLayout />} />
         </Routes>
       </div>
