@@ -2,14 +2,21 @@ import { useState, useEffect, useRef } from 'react';
 import { Send, Sparkles, MessageSquare, Building2, GraduationCap, MapPin, Mail, X, Plus, Menu } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
+import pceLogo from '../assets/pce-logo-new.png';
 
 const API_URL = process.env.REACT_APP_API_URL;
 
 const ChatInterfaceNebula = () => {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    const saved = sessionStorage.getItem('chatMessages');
+    return saved ? JSON.parse(saved) : [];
+  });
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [activeTopic, setActiveTopic] = useState('general');
+  const [activeTopic, setActiveTopic] = useState(() => {
+    const saved = sessionStorage.getItem('activeTopic');
+    return saved || 'general';
+  });
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [email, setEmail] = useState('');
@@ -90,6 +97,15 @@ const ChatInterfaceNebula = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  // Save messages and topic to sessionStorage
+  useEffect(() => {
+    sessionStorage.setItem('chatMessages', JSON.stringify(messages));
+  }, [messages]);
+
+  useEffect(() => {
+    sessionStorage.setItem('activeTopic', activeTopic);
+  }, [activeTopic]);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -254,18 +270,13 @@ const ChatInterfaceNebula = () => {
           {/* Sidebar header */}
           <div className="p-3 md:p-4 border-b border-neural-600">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2.5">
-                <div className="relative w-8 h-8 rounded-lg bg-neural-700 border border-neural-500 flex items-center justify-center overflow-hidden">
-                  <img
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/PCECroppedLogo.png/512px-PCECroppedLogo.png"
-                    alt="PCE Logo"
-                    className="relative w-5 h-5 object-contain"
-                  />
-                </div>
-                <div>
-                  <p className="text-sm font-semibold text-neural-100 tracking-tight">PilBot</p>
-                  <p className="text-xs text-neural-200 font-medium mt-0.5">PCE Assistant</p>
-                </div>
+              <div className="flex items-center gap-3">
+                <img
+                  src={pceLogo}
+                  alt="PCE Logo"
+                  className="w-10 h-10 object-contain"
+                />
+                <p className="text-lg font-semibold text-neutral-100">PilBot</p>
               </div>
               <button
                 onClick={() => setIsSidebarOpen(false)}
@@ -542,20 +553,20 @@ const ChatInterfaceNebula = () => {
           </div>
         </div>
 
-        {/* Input area - Mobile optimized */}
+        {/* Input area - Mobile optimized with elegant red accent */}
         <div className="sticky bottom-0 px-3 sm:px-4 md:px-6 py-3 sm:py-4 glass">
           <form onSubmit={handleSend} className="max-w-5xl mx-auto">
-            <div className="relative bg-neural-800 border border-neural-500 hover:border-neural-400 focus-within:border-accent focus-within:shadow-[0_0_0_3px_rgba(220,38,38,0.1)] rounded-xl transition-all duration-200">
+            <div className="relative bg-gradient-to-br from-neural-800 to-neural-850 rounded-xl transition-all duration-300 border-2 border-transparent focus-within:border-accent/40">
               <textarea
                 ref={textareaRef}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
                 placeholder="Ask me anything..."
-                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-11 sm:pr-12 bg-transparent outline-none resize-none text-xs sm:text-sm text-neural-100 placeholder-neural-300 scrollbar-hide focus:outline-none"
+                className="w-full px-3 sm:px-4 py-2.5 sm:py-3 pr-11 sm:pr-12 bg-transparent outline-none resize-none text-xs sm:text-sm text-white placeholder-neural-300 scrollbar-hide focus:outline-none"
                 rows={1}
                 disabled={isLoading}
-                style={{ maxHeight: '120px' }}
+                style={{ maxHeight: '120px', border: 'none', outline: 'none', boxShadow: 'none' }}
               />
               <button
                 type="submit"

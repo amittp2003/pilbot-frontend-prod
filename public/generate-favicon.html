@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate PCE Favicon</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .icon-preview {
+            display: inline-block;
+            margin: 10px;
+            text-align: center;
+        }
+        .icon-box {
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: inline-block;
+        }
+        canvas {
+            display: block;
+            border: 1px solid #ddd;
+        }
+        button {
+            margin: 20px 0;
+            padding: 12px 24px;
+            background: #CC0000;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #990000;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PCE Favicon Generator</h1>
+        <p>This will create a favicon with white background. Right-click and "Save As" to download.</p>
+        
+        <div class="icon-preview">
+            <h3>32x32 (Favicon)</h3>
+            <div class="icon-box">
+                <canvas id="canvas32" width="32" height="32"></canvas>
+            </div>
+            <br>
+            <button onclick="downloadCanvas('canvas32', 'favicon-32x32.png')">Download 32x32</button>
+        </div>
+
+        <div class="icon-preview">
+            <h3>192x192 (Mobile)</h3>
+            <div class="icon-box">
+                <canvas id="canvas192" width="192" height="192"></canvas>
+            </div>
+            <br>
+            <button onclick="downloadCanvas('canvas192', 'pce-logo-192.png')">Download 192x192</button>
+        </div>
+
+        <p><strong>Instructions:</strong></p>
+        <ol>
+            <li>Click the buttons to download the icons</li>
+            <li>Replace the files in the public folder</li>
+            <li>Refresh your browser</li>
+        </ol>
+    </div>
+
+    <script>
+        // Load the PCE logo
+        const img = new Image();
+        img.crossOrigin = "anonymous";
+        img.src = 'pce-logo.png';
+
+        img.onload = function() {
+            // Create 32x32 favicon
+            createIcon('canvas32', 32);
+            // Create 192x192 icon
+            createIcon('canvas192', 192);
+        };
+
+        img.onerror = function() {
+            alert('Could not load pce-logo.png. Make sure the file exists in the public folder!');
+        };
+
+        function createIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // White background with slight padding
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Add subtle border
+            ctx.strokeStyle = '#E0E0E0';
+            ctx.lineWidth = 1;
+            ctx.strokeRect(0, 0, size, size);
+            
+            // Draw logo with padding
+            const padding = size * 0.1;
+            const logoSize = size - (padding * 2);
+            ctx.drawImage(img, padding, padding, logoSize, logoSize);
+        }
+
+        function downloadCanvas(canvasId, filename) {
+            const canvas = document.getElementById(canvasId);
+            const link = document.createElement('a');
+            link.download = filename;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
