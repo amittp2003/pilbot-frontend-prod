@@ -2,11 +2,34 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-body {
-  font-family: 'Inter', sans-serif;
+/* Modern Dark Theme Global Styles */
+@layer base {
+  * {
+    @apply border-neural-600;
+  }
+
+  body {
+    @apply bg-neural-900 text-neural-100 antialiased;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Typography refinements */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+    letter-spacing: -0.02em;
+  }
+
+  /* Focus visible for accessibility */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-neural-400 ring-offset-2 ring-offset-neural-900;
+  }
 }
 
 @layer utilities {
+  /* Custom scrollbar - Modern dark theme */
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
@@ -16,7 +39,26 @@ body {
     scrollbar-width: none;
   }
 
-  /* Custom scrollbar styling */
+  .scrollbar-modern::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-thumb {
+    background: #2A2A2A;
+    border-radius: 3px;
+    transition: background 0.2s ease;
+  }
+
+  .scrollbar-modern::-webkit-scrollbar-thumb:hover {
+    background: #3A3A3A;
+  }
+
+  /* Custom scrollbar for light backgrounds */
   .scrollbar-thin::-webkit-scrollbar {
     width: 6px;
   }
@@ -26,23 +68,58 @@ body {
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: #1f2937;
+    background: #1A1A1A;
     border-radius: 3px;
   }
 
   .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: #374151;
+    background: #2A2A2A;
   }
 
-  .scrollbar-thumb-gray-800::-webkit-scrollbar-thumb {
-    background: #1f2937;
+  /* Glass morphism effect */
+  .glass {
+    @apply backdrop-blur-xl bg-neural-850/80 border border-neural-600;
   }
 
-  .scrollbar-thumb-gray-800::-webkit-scrollbar-thumb:hover {
-    background: #374151;
+  /* Subtle hover scale */
+  .hover-scale {
+    @apply transition-transform duration-200 ease-out;
+  }
+
+  .hover-scale:hover {
+    transform: scale(1.01);
+  }
+
+  .hover-scale:active {
+    transform: scale(0.98);
+  }
+
+  /* Text gradient */
+  .text-gradient {
+    @apply bg-gradient-to-r from-accent via-accent-dark to-accent bg-clip-text text-transparent;
   }
 
   /* Animation delays */
+  .animation-delay-100 {
+    animation-delay: 100ms;
+  }
+
+  .animation-delay-200 {
+    animation-delay: 200ms;
+  }
+
+  .animation-delay-300 {
+    animation-delay: 300ms;
+  }
+
+  .animation-delay-400 {
+    animation-delay: 400ms;
+  }
+
+  .animation-delay-500 {
+    animation-delay: 500ms;
+  }
+
   .animation-delay-2000 {
     animation-delay: 2s;
   }
@@ -52,15 +129,32 @@ body {
   }
 }
 
-.animate-pulse {
-  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+/* Smooth animations */
+.animate-pulse-slow {
+  animation: pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-@keyframes pulse {
+@keyframes pulse-slow {
   0%, 100% {
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.6;
   }
+}
+
+/* Status indicator pulse */
+@keyframes status-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: scale(1.1);
+  }
+}
+
+.status-pulse {
+  animation: status-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }

@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "PilBot",
+  "name": "PilBot - Pillai College of Engineering AI Assistant",
   "icons": [
     {
       "src": "favicon.ico",
